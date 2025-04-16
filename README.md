@@ -2,6 +2,9 @@
 
 # docsify-dashboard
 
+[![NPM Release](https://img.shields.io/npm/v/docsify-dashboard.svg?logo=npm&style=flat-square)](https://www.npmjs.com/package/docsify-dashboard)
+[![License: MIT](https://img.shields.io/badge/License-GPLv3-yellow.svg?style=flat-square)](https://github.com/erectbranch/docsify-dashboard/blob/master/LICENSE)
+
 A plugin for [Docsify](https://docsify.js.org/#/) that creates a dashboard from a JSON file.
 
 </div>
@@ -50,8 +53,7 @@ To use the image slider, you need to include the plugin in your Docsify `index.h
             "tag": "3 min read",
             "image": "images/markdown-red.png",
             "href": "#/introduction"
-        },
-        ...
+        }
     ]
     ```
 
