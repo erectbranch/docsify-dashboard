@@ -1,0 +1,29 @@
+{
+  "name": "docsify-dashboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "/dist/docsify-dashboard.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erectbranch/docsify-dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/erectbranch/docsify-dashboard/issues"
+  },
+  "scripts": {
+    "build": "uglifyjs ./src/addTocPage.js -m -o ./dist/docsify-dashboard.min.js && uglifycss ./src/addTocPage.css --output ./dist/dashboard.min.css",
+    "publish": "npm publish --access public"
+  },
+  "keywords": [
+    "docsify",
+    "docsify-plugin",
+    "docsify-dashboard"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "README.md"
+  ],
+  "author": "Sungjae Jeon",
+  "license": "GPL-3.0"
+}

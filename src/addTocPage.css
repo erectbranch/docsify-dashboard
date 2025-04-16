@@ -1,0 +1,184 @@
+/*
+ * This file is a modified version of the original work found at:
+ * https://github.com/pikapikapikaori/pikapikapi-blog
+ *
+ * Original Work Copyright (C) 2023-2025 李亦楊
+ * Modified Work Copyright (C) 2025 Sungjae Jeon (erectbranch)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+:root {
+    /* card style */
+    --dashboard-card-border-radius: 10px;
+    --dashboard-card-margin-top: 40px; 
+    --dashboard-card-bg-color: #212121; 
+    --dashboard-card-max-width: 400px;
+
+    /* card text */
+    --dashboard-card-text-align: left; 
+    --dashboard-card-text-color: #fff;
+    --dashboard-card-title-font-size: 1rem; 
+    --dashboard-card-title-font-weight: bolder; 
+    --dashboard-card-date-font-size: 0.75rem; 
+    --dashboard-card-date-color: rgba(255, 255, 255, .4); 
+}
+
+.toc-page-display-a {
+    border-radius: var(--dashboard-card-border-radius, 0px);
+    display: inline-block;
+    width: calc(50% - 25px);  
+    margin-bottom: 10px;
+    margin-top: var(--dashboard-card-margin-top, 40px);
+    text-align: var(--dashboard-card-text-align, left); 
+    background-color: var(--dashboard-card-bg-color, #212121);
+    min-height: 270px;
+    text-decoration: none !important;
+    color: var(--dashboard-card-text-color, #fff) !important;
+    max-width: var(--dashboard-card-max-width, 400px);
+}
+
+@media screen and (max-width: 768px) {
+    .toc-page-display-a {
+        width: calc(100% - 20px);
+        display: inherit;
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+}
+
+.toc-page-display-a:nth-child(even) {
+    margin-left: 0px;
+    margin-right: 18px;
+}
+
+.toc-page-display-a:nth-child(odd) {
+    margin-left: 0px;
+    margin-right: 7px;
+}
+
+.toc-page-display-title-img {
+    min-width: 100%;
+    min-height: 200px;
+    max-height: 200px;
+    overflow: hidden;
+    border-top-left-radius: var(--global-el-border-radius, 10px);
+    border-top-right-radius: var(--global-el-border-radius, 10px);
+}
+
+.toc-page-display-a img {
+    object-fit: cover;
+    min-width: 100%;
+    min-height: 200px;
+    max-height: 200px;
+    transition: transform 0.4s;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.toc-page-display-a:hover {
+    cursor: pointer;
+
+    img {
+        transform: scale(1.03);
+        filter: brightness(var(--global-brightness-blur, 0.85));
+    }
+}
+
+.toc-page-display-title-div {
+    padding: 20px 20px 5px 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: var(--dashboard-card-title-font-size, 1rem);
+    font-weight: var(--dashboard-card-title-font-weight, bolder);
+}
+
+.toc-page-display-date-div {
+    padding: 0 20px 20px 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: var(--dashboard-card-date-font-size, 0.75rem);
+    color: var(--dashboard-card-date-color, rgba(255, 255, 255, .4));
+}
+
+.toc-paginator-div {
+    margin-top: 25px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+
+.toc-paginator-input input {
+    outline: 0;
+    font-size: inherit;
+    color: inherit;
+    width: 2em;
+    margin: 0 0.3em;
+    text-align: center;
+    background-color: transparent;
+    border-radius: var(--global-widget-border-radius, 0.3em);
+    border: 0.1em solid var(--global-border-default-color, #eee);
+}
+
+.toc-paginator-input span {
+    margin: 0 0.3em;
+}
+
+.toc-paginator-input input:hover {
+    border-color: var(--theme-color, #ea6f5a);  
+}
+
+.toc-paginator-input input:focus {
+    border-color: var(--theme-color, #ea6f5a);
+}
+
+.toc-paginator-input input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.toc-paginator-button-div {
+    margin: 0 0.1em;
+    border: 0.1em solid transparent;
+    cursor: pointer;
+}
+
+.toc-paginator-button-div svg {
+    border-radius: var(--global-widget-border-radius, 0.3em);
+}
+
+.toc-paginator-button-div svg:hover {
+    background-color: var(--global-theme-color-blur, #ea6f5a1a);
+}
+
+body.force-close {
+    .sidebar {
+        visibility: hidden !important;
+        transform: translateX(0) !important;
+    }
+
+    .sidebar-toggle {
+        visibility: hidden !important;
+    }
+
+    .content {
+        left: 0 !important;
+        transform: translateX(0) !important;
+    }
+
+    .app-nav {
+        display: inherit !important;
+    }
+}

@@ -1,0 +1,151 @@
+<div align="center">
+
+# docsify-dashboard
+
+A plugin for [Docsify](https://docsify.js.org/#/) that creates a dashboard from a JSON file.
+
+</div>
+
+## Import
+
+To use the image slider, you need to include the plugin in your Docsify `index.html` file:
+
+> **Note:** This plugin requires [docsify-tabs](https://jhildenbiddle.github.io/docsify-tabs/#/) plugin. (Make sure to include it after the docsify-dashboard plugin)
+
+**Add stylesheet**
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard/dist/dashboard.min.css">
+```
+
+**Add script**
+
+```html
+<script src="//cdn.jsdelivr.net/npm/docsify-dashboard/dist/docsify-dashboard.min.js"></script>
+
+<!-- The docsify-tabs plugin (must be included after the docsify-dashboard plugin) -->
+<script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1/dist/docsify-tabs.min.js"></script>
+```
+
+---
+
+## Usage
+
+1. Create a JSON file with the metadata of the posts. The JSON file should be structured as follows:
+
+    > default path: `metadata/posts.json`
+
+    ```json
+    [
+        {
+            "time": "2025.02.01",
+            "title": "Topic One",
+            "tag": "5 min read",
+            "image": "images/octocat.jpg",
+            "href": "#/topic-one"
+        },
+        {
+            "time": "2025.01.01",
+            "title": "Introduction",
+            "tag": "3 min read",
+            "image": "images/markdown-red.png",
+            "href": "#/introduction"
+        },
+        ...
+    ]
+    ```
+
+2. To create an dashboard slider, just add the following code to your markdown file:
+
+    ```markdown
+    <!-- tabs:start -->
+
+    <!-- dashboard -->
+
+    <!-- tabs:end -->
+    ```
+
+---
+
+## Configuration
+
+To configure the slider, you can set options in your `index.html` file. The available options are:
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `numTabContent` | `Int` | 4 | Number of tabs to show in the one slider. |
+| `metadataUrl` | `String` | metadata/posts | JSON URL to fetch metadata. |
+
+```javascript
+window.$docsify = {
+  dashboard: {
+    numTabContent: 4,
+    metadataUrl: 'metadata/posts'       // do not include '.json' extension
+  },
+
+  tabs: {
+    theme: 'material' // We recommend 'material' theme for the docsify-tabs
+  },
+};
+```
+
+---
+
+## Customization
+
+The slider can be customized using CSS. You can override the following CSS variables.
+
+| Style | Description |
+| --- | --- |
+| `--dashboard-card-border-radius` | The border radius of the card. |
+| `--dashboard-card-margin-top` | The margin top of the card. |
+| `--dashboard-card-bg-color` | The background color of the card. |
+| `--dashboard-card-max-width` | The maximum width of the card. |
+| `--dashboard-card-text-align` | The text alignment of the card. |
+| `--dashboard-card-text-color` | The text color of the card. |
+| `--dashboard-card-title-font-size` | The font size of the title text. |
+| `--dashboard-card-title-font-weight` | The font weight of the title text. |
+| `--dashboard-card-date-font-size` | The font size of the date text. |
+| `--dashboard-card-date-color` | The color of the date text. |
+
+To change the transition effect and the size of the slider, you can add the following styles to your `index.html` file:
+
+```html
+<style>
+  :root {
+    /* card style */
+    --dashboard-card-border-radius: 10px;
+    --dashboard-card-margin-top: 40px; 
+    --dashboard-card-bg-color: #212121; 
+    --dashboard-card-max-width: 400px;
+
+    /* card text */
+    --dashboard-card-text-align: left; 
+    --dashboard-card-text-color: #fff;
+    --dashboard-card-title-font-size: 1rem; 
+    --dashboard-card-title-font-weight: bolder; 
+    --dashboard-card-date-font-size: 0.75rem; 
+    --dashboard-card-date-color: rgba(255, 255, 255, .4); 
+  }
+</style>
+```
+
+---
+
+## License
+
+This project is licensed under the GNU General Public License v3.0.
+
+- Original work © 2023–2025 李亦楊 ([@pikapikapikaori](https://github.com/pikapikapikaori))
+
+- Modified work © 2025 Sungjae Jeon ([@erectbranch](https://github.com/erectbranch))
+
+See [LICENSE](LICENSE) for more details.
+
+---
+
+## Contribution
+
+Please feel free to submit a pull request or open an issue on the GitHub repository. Your contributions are welcome and appreciated!
+
+---
