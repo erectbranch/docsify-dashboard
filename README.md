@@ -103,12 +103,17 @@ The slider can be customized using CSS. You can override the following CSS varia
 | `--dashboard-card-margin-top` | The margin top of the card. |
 | `--dashboard-card-bg-color` | The background color of the card. |
 | `--dashboard-card-max-width` | The maximum width of the card. |
+| `--dashboard-card-min-height` | The minimum height of the card. |
+| `--dashboard-card-shadow` | The shadow of the card. |
 | `--dashboard-card-text-align` | The text alignment of the card. |
 | `--dashboard-card-text-color` | The text color of the card. |
 | `--dashboard-card-title-font-size` | The font size of the title text. |
 | `--dashboard-card-title-font-weight` | The font weight of the title text. |
 | `--dashboard-card-date-font-size` | The font size of the date text. |
 | `--dashboard-card-date-color` | The color of the date text. |
+| `--dashboard-card-img-min-width` | The minimum width of the image. |
+| `--dashboard-card-img-min-height` | The minimum height of the image. |
+| `--dashboard-card-img-max-height` | The maximum height of the image. |
 
 To change the transition effect and the size of the slider, you can add the following styles to your `index.html` file:
 
@@ -120,6 +125,8 @@ To change the transition effect and the size of the slider, you can add the foll
     --dashboard-card-margin-top: 40px; 
     --dashboard-card-bg-color: #212121; 
     --dashboard-card-max-width: 400px;
+    --dashboard-card-min-height: 270px;
+    --dashboard-card-shadow: 2px 4px 0 rgba(192, 192, 192, 0.4);
 
     /* card text */
     --dashboard-card-text-align: left; 
@@ -128,6 +135,11 @@ To change the transition effect and the size of the slider, you can add the foll
     --dashboard-card-title-font-weight: bolder; 
     --dashboard-card-date-font-size: 0.75rem; 
     --dashboard-card-date-color: rgba(255, 255, 255, .4); 
+
+    /* card image */
+    --dashboard-card-img-min-width: 100%;
+    --dashboard-card-img-min-height: 200px;
+    --dashboard-card-img-max-height: 200px;
   }
 </style>
 ```

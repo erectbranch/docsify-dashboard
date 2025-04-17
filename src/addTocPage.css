@@ -18,12 +18,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-:root {
+ :root {
     /* card style */
     --dashboard-card-border-radius: 10px;
     --dashboard-card-margin-top: 40px; 
     --dashboard-card-bg-color: #212121; 
     --dashboard-card-max-width: 400px;
+    --dashboard-card-min-height: 270px;
+    --dashboard-card-shadow: 2px 4px 0 rgba(192, 192, 192, 0.4);
 
     /* card text */
     --dashboard-card-text-align: left; 
@@ -31,7 +33,12 @@
     --dashboard-card-title-font-size: 1rem; 
     --dashboard-card-title-font-weight: bolder; 
     --dashboard-card-date-font-size: 0.75rem; 
-    --dashboard-card-date-color: rgba(255, 255, 255, .4); 
+    --dashboard-card-date-color: rgba(255, 255, 255, .4);
+
+    /* card image */
+    --dashboard-card-img-min-width: 100%;
+    --dashboard-card-img-min-height: 200px;
+    --dashboard-card-img-max-height: 200px;
 }
 
 .toc-page-display-a {
@@ -42,10 +49,11 @@
     margin-top: var(--dashboard-card-margin-top, 40px);
     text-align: var(--dashboard-card-text-align, left); 
     background-color: var(--dashboard-card-bg-color, #212121);
-    min-height: 270px;
+    min-height: var(--dashboard-card-min-height, 270px);
     text-decoration: none !important;
     color: var(--dashboard-card-text-color, #fff) !important;
     max-width: var(--dashboard-card-max-width, 400px);
+    box-shadow: var(--dashboard-card-shadow, 2px 4px 0 rgba(192, 192, 192, 0.4));
 }
 
 @media screen and (max-width: 768px) {
@@ -68,9 +76,9 @@
 }
 
 .toc-page-display-title-img {
-    min-width: 100%;
-    min-height: 200px;
-    max-height: 200px;
+    min-width: var(--dashboard-card-img-min-width, 100%);
+    min-height: var(--dashboard-card-img-min-height, 200px);
+    max-height: var(--dashboard-card-img-max-height, 200px);
     overflow: hidden;
     border-top-left-radius: var(--global-el-border-radius, 10px);
     border-top-right-radius: var(--global-el-border-radius, 10px);
@@ -78,9 +86,9 @@
 
 .toc-page-display-a img {
     object-fit: cover;
-    min-width: 100%;
-    min-height: 200px;
-    max-height: 200px;
+    min-width: var(--dashboard-card-img-min-width, 100%);
+    min-height: var(--dashboard-card-img-min-height, 200px);
+    max-height: var(--dashboard-card-img-max-height, 200px);
     transition: transform 0.4s;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;

@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.0.1
+
+_2025-04-17_
+
+### Changed
+
+- Added more `:root` variables for card styles to `AddTocPage.css` for easier customization.
+
 ## 1.0.0
 
 _2025-04-17_
