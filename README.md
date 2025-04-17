@@ -7,6 +7,8 @@
 
 A plugin for [Docsify](https://docsify.js.org/#/) that creates a dashboard from a JSON file.
 
+![demo](demo.png)
+
 </div>
 
 ## Import
@@ -121,25 +123,25 @@ To change the transition effect and the size of the slider, you can add the foll
 <style>
   :root {
     /* card style */
-    --dashboard-card-border-radius: 10px;
-    --dashboard-card-margin-top: 40px; 
-    --dashboard-card-bg-color: #212121; 
-    --dashboard-card-max-width: 400px;
-    --dashboard-card-min-height: 270px;
-    --dashboard-card-shadow: 2px 4px 0 rgba(192, 192, 192, 0.4);
+    --dashboard-card-border-radius: 5px;
+    --dashboard-card-margin-top: 10px; 
+    --dashboard-card-bg-color: #ffffff; 
+    --dashboard-card-max-width: 300px;
+    --dashboard-card-min-height: 220px;
+    --dashboard-card-shadow: 0 0.3em 0.3em rgba(0,0,0,0.2);
 
     /* card text */
     --dashboard-card-text-align: left; 
-    --dashboard-card-text-color: #fff;
-    --dashboard-card-title-font-size: 1rem; 
+    --dashboard-card-text-color: #000000;
+    --dashboard-card-title-font-size: 1.1rem; 
     --dashboard-card-title-font-weight: bolder; 
-    --dashboard-card-date-font-size: 0.75rem; 
-    --dashboard-card-date-color: rgba(255, 255, 255, .4); 
+    --dashboard-card-date-font-size: 1rem; 
+    --dashboard-card-date-color: #808080;
 
     /* card image */
     --dashboard-card-img-min-width: 100%;
-    --dashboard-card-img-min-height: 200px;
-    --dashboard-card-img-max-height: 200px;
+    --dashboard-card-img-min-height: 160px;
+    --dashboard-card-img-max-height: 160px;
   }
 </style>
 ```

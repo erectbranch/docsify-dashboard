@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.0.2
+
+_2025-04-17_
+
+### Changed
+
+- Changed the default card styles. (`AddTocPage.css`)
+
 ## 1.0.1
 
 _2025-04-17_
