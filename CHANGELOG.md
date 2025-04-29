@@ -1,5 +1,19 @@
 # Change Log
 
+## 1.1.0
+
+_2025-04-30_
+
+### Added
+
+- Added support for "*subtitle*" information in the metadata.
+
+- Added support for Array type in the "*tag*" metadata.
+
+### Changed
+
+- Changed the card styles to be aligned at the top.
+
 ## 1.0.2
 
 _2025-04-17_

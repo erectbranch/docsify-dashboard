@@ -251,8 +251,10 @@ function plugin(hook, vm) {
 
 function dashboardPlugin(hook, vm) {
     let jsonVariable;
+    let hasSubtitle = false
+
     const dashboardConfig = vm.config.dashboard || {};
-    const numTabContent = dashboardConfig.numTabContent || 4;
+    const numTabContent = dashboardConfig.numTabContent || 3;
     const metadataUrl = dashboardConfig.metadataUrl || "metadata/posts";
 
     const getJson = (fileName) => {
@@ -260,6 +262,54 @@ function dashboardPlugin(hook, vm) {
         xhttp.open("GET", `${fileName}.json`, false);
         xhttp.send(null);
         return JSON.parse(xhttp.response);
+    }
+
+    function testJsonKey(json, key) {
+        if (Object.keys(json).indexOf(key) > -1) {
+            return true
+        }
+        return false
+    }
+
+    function buildPageFromJson(postMetadata) {
+        hasSubtitle = testJsonKey(postMetadata, "subtitle")
+        let pageContent = ""
+
+        if (hasSubtitle) {
+            var { time, title, subtitle, tag, image, href } = jsonVariable[jsonIndex];
+        } else {
+            var { time, title, tag, image, href } = jsonVariable[jsonIndex];
+        }
+
+        if (Array.isArray(tag)) {
+            tag = tag.join(' ⋅ ');
+        }
+        
+        pageContent += `<a class="toc-page-display-a" href="${href}" target="_blank">
+            <div class="toc-page-display-div">
+                <div class="toc-page-display-title-img">
+                    <center>
+                        <img class="ignore-view-full-image-img" src="${image}">
+                    </center>
+                </div>
+                <div class="toc-page-display-title-div">
+                    ${title}
+                </div>`;
+        if ( hasSubtitle ) {
+            pageContent += `
+                <div class="toc-page-display-subtitle-div">
+                    ${subtitle}
+                </div>`;
+        }
+        
+        pageContent += `
+                <div class="toc-page-display-date-div">
+                    ${time} &nbsp;&nbsp; ${tag}
+                </div>
+            </div>
+        </a>`;
+
+        return pageContent
     }
 
     hook.init(() => {
@@ -283,22 +333,7 @@ function dashboardPlugin(hook, vm) {
                     if (jsonIndex >= jsonVariable.length) {
                         break;
                     }
-                    const { time, title, tag, image, href } = jsonVariable[jsonIndex];
-                    dashboardContent += `<a class="toc-page-display-a" href="${href}" target="_blank">
-                        <div class="toc-page-display-div">
-                            <div class="toc-page-display-title-img">
-                                <center>
-                                    <img class="ignore-view-full-image-img" src="${image}">
-                                </center>
-                            </div>
-                            <div class="toc-page-display-title-div">
-                                ${title}
-                            </div>
-                            <div class="toc-page-display-date-div">
-                                ${time} ⋅ ${tag}
-                            </div>
-                        </div>
-                    </a>`;
+                    dashboardContent += buildPageFromJson(jsonVariable[jsonIndex])
                 }
                 dashboardContent += `</div>\n\n`;
                 tabIndex++;

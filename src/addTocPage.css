@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-:root {
+ :root {
     /* card style */
     --dashboard-card-border-radius: 5px;
     --dashboard-card-margin-top: 10px; 
@@ -39,6 +39,11 @@
     --dashboard-card-img-min-width: 100%;
     --dashboard-card-img-min-height: 160px;
     --dashboard-card-img-max-height: 160px;
+}
+
+.toc-page-display-div {
+    display: flex;
+    flex-direction: column; 
 }
 
 .toc-page-display-a {
@@ -110,6 +115,14 @@
     overflow: hidden;
     font-size: var(--dashboard-card-title-font-size, 1rem);
     font-weight: var(--dashboard-card-title-font-weight, bolder);
+}
+
+.toc-page-display-subtitle-div {
+    padding: 0 20px 20px 20px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    font-size: var(--dashboard-card-date-font-size, 0.75rem);
+    color: var(--dashboard-card-date-color, rgba(255, 255, 255, .4));
 }
 
 .toc-page-display-date-div {

@@ -36,25 +36,28 @@ To use the image slider, you need to include the plugin in your Docsify `index.h
 
 ## Usage
 
-1. Create a JSON file with the metadata of the posts. The JSON file should be structured as follows:
+> Default metadata path: `metadata/posts.json`
 
-    > default path: `metadata/posts.json`
+1. Create a JSON file with the metadata of the posts. The metadata should be structured as follows:
+
+    > **Notes** "*subtitle*" information is optional
 
     ```json
     [
         {
-            "time": "2025.02.01",
-            "title": "Topic One",
+            "time": "2025.04.06",
+            "title": "Shanwei, China",
             "tag": "5 min read",
-            "image": "images/octocat.jpg",
+            "image": "assets/images/shanwei.jpg",
             "href": "#/topic-one"
         },
         {
-            "time": "2025.01.01",
-            "title": "Introduction",
+            "time": "2025.04.05",
+            "title": "Melbourne, Australia",
             "tag": "3 min read",
-            "image": "images/markdown-red.png",
-            "href": "#/introduction"
+            "image": "assets/images/melbourne.png",
+            "href": "#/topic-two",
+            "subtitle": "A beautiful city in Australia"   // Optional
         }
     ]
     ```
@@ -77,13 +80,13 @@ To configure the slider, you can set options in your `index.html` file. The avai
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `numTabContent` | `Int` | 4 | Number of tabs to show in the one slider. |
+| `numTabContent` | `Int` | 3 | Number of tabs to show in the one slider. |
 | `metadataUrl` | `String` | metadata/posts | JSON URL to fetch metadata. |
 
 ```javascript
 window.$docsify = {
   dashboard: {
-    numTabContent: 4,
+    numTabContent: 3,
     metadataUrl: 'metadata/posts'       // do not include '.json' extension
   },
 
