@@ -39,6 +39,12 @@
     --dashboard-card-img-min-width: 100%;
     --dashboard-card-img-min-height: 160px;
     --dashboard-card-img-max-height: 160px;
+
+    /* tag style */
+    --tags-bg-color: #fafbfbff;
+    --tags-font-color: #54cca7ff;
+    --tags-font-size: var(--base-font-size);
+    --tags-margin-top: 5px;
 }
 
 .toc-page-display-div {
@@ -202,4 +208,18 @@ body.force-close {
     .app-nav {
         display: inherit !important;
     }
+}
+
+.tag-list .tag-element {
+    background-color: var(--tags-bg-color);
+    color: var(--tags-font-color);
+    border-radius: 10%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--tags-font-size);
+    transition: all 0.5s ease-in;
+    padding: 2px 10px;
+    margin-top: var(--tags-margin-top);
+    margin-right: 5px;
 }

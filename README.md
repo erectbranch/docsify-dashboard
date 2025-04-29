@@ -5,7 +5,7 @@
 [![NPM Release](https://img.shields.io/npm/v/docsify-dashboard.svg?logo=npm&style=flat-square)](https://www.npmjs.com/package/docsify-dashboard)
 [![License: MIT](https://img.shields.io/badge/License-GPLv3-yellow.svg?style=flat-square)](https://github.com/erectbranch/docsify-dashboard/blob/master/LICENSE)
 
-A plugin for [Docsify](https://docsify.js.org/#/) that creates a dashboard from a JSON file.
+A plugin for [Docsify](https://docsify.js.org/#/) that creates a dashboard from a metadata.
 
 ![demo](demo.png)
 
@@ -13,30 +13,28 @@ A plugin for [Docsify](https://docsify.js.org/#/) that creates a dashboard from 
 
 ## Import
 
-To use the image slider, you need to include the plugin in your Docsify `index.html` file:
+To use the dashboard, you need to include the plugin in your Docsify `index.html` file:
 
 > **Note:** This plugin requires [docsify-tabs](https://jhildenbiddle.github.io/docsify-tabs/#/) plugin. (Make sure to include it after the docsify-dashboard plugin)
 
 **Add stylesheet**
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard/dist/dashboard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@latest/dist/dashboard.min.css">
 ```
 
 **Add script**
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/docsify-dashboard/dist/docsify-dashboard.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@latest/dist/docsify-dashboard.min.js"></script>
 
 <!-- The docsify-tabs plugin (must be included after the docsify-dashboard plugin) -->
 <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1/dist/docsify-tabs.min.js"></script>
 ```
 
----
-
 ## Usage
 
-> Default metadata path: `metadata/posts.json`
+### Dashboard
 
 1. Create a JSON file with the metadata of the posts. The metadata should be structured as follows:
 
@@ -57,12 +55,12 @@ To use the image slider, you need to include the plugin in your Docsify `index.h
             "tag": "3 min read",
             "image": "assets/images/melbourne.png",
             "href": "#/topic-two",
-            "subtitle": "A beautiful city in Australia"   // Optional
+            "subtitle": "A beautiful city in Australia"
         }
     ]
     ```
 
-2. To create an dashboard slider, just add the following code to your markdown file:
+2. To create an dashboard, just add the following code to your markdown file:
 
     ```markdown
     <!-- tabs:start -->
@@ -72,15 +70,33 @@ To use the image slider, you need to include the plugin in your Docsify `index.h
     <!-- tabs:end -->
     ```
 
+### Tag-Dashboard
+
+1. Create a empty markdown file for rendering the tag dashboard(`tags.md`)
+
+    ```bash
+    docs/
+    ├── metadata/
+    │   └── posts.json
+    ├── index.html
+    └── tags.md
+    ```
+
+2. To create a sidebar tag list, just add the following code to your sidebar file(e.g. `_sidebar.md`):
+
+    ```markdown
+    <!-- tag-list -->
+    ```
+
 ---
 
 ## Configuration
 
-To configure the slider, you can set options in your `index.html` file. The available options are:
+To configure the dashboard, you can set options in your `index.html` file. The available options are:
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `numTabContent` | `Int` | 3 | Number of tabs to show in the one slider. |
+| `numTabContent` | `Int` | 3 | Number of cards to show in a docsify-tabs slide. |
 | `metadataUrl` | `String` | metadata/posts | JSON URL to fetch metadata. |
 
 ```javascript
@@ -100,7 +116,9 @@ window.$docsify = {
 
 ## Customization
 
-The slider can be customized using CSS. You can override the following CSS variables.
+The dashboard can be customized using CSS. You can override the following CSS variables.
+
+### Dashboard
 
 | Style | Description |
 | --- | --- |
@@ -120,10 +138,11 @@ The slider can be customized using CSS. You can override the following CSS varia
 | `--dashboard-card-img-min-height` | The minimum height of the image. |
 | `--dashboard-card-img-max-height` | The maximum height of the image. |
 
-To change the transition effect and the size of the slider, you can add the following styles to your `index.html` file:
+To change the styles, you can add the following CSS to your `index.html` file:
 
 ```html
 <style>
+  /* default */
   :root {
     /* card style */
     --dashboard-card-border-radius: 5px;
@@ -145,6 +164,28 @@ To change the transition effect and the size of the slider, you can add the foll
     --dashboard-card-img-min-width: 100%;
     --dashboard-card-img-min-height: 160px;
     --dashboard-card-img-max-height: 160px;
+  }
+</style>
+```
+
+### Tag-Dashboard
+
+| Style | Description |
+| --- | --- |
+| `--tags-bg-color` | The background color of the tag. |
+| `--tags-font-color` | The font color of the tag. |
+| `--tags-font-size` | The font size of the tag. |
+
+To change the tag-list styles, add the following CSS:
+
+```html
+<style>
+  /* default */
+  :root {
+    --tags-bg-color: #fafbfbff;
+    --tags-font-color: #54cca7ff;
+    --tags-font-size: var(--base-font-size);
+    --tags-margin-top: 5px;
   }
 </style>
 ```

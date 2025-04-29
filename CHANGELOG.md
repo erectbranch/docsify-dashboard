@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.0.0
+
+_2025-04-30_
+
+### Added
+
+- Extended the plugin to support a tag-dashboard.
+
+- Added a tag list feature to the sidebar.
+
+### Changed
+
+- Fixed an issue where the `buildPageFromJson()` function was not working properly.
+
 ## 1.1.0
 
 _2025-04-30_

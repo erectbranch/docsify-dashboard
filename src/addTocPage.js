@@ -276,9 +276,9 @@ function dashboardPlugin(hook, vm) {
         let pageContent = ""
 
         if (hasSubtitle) {
-            var { time, title, subtitle, tag, image, href } = jsonVariable[jsonIndex];
+            var { time, title, subtitle, tag, image, href } = postMetadata;
         } else {
-            var { time, title, tag, image, href } = jsonVariable[jsonIndex];
+            var { time, title, tag, image, href } = postMetadata;
         }
 
         if (Array.isArray(tag)) {
@@ -312,12 +312,39 @@ function dashboardPlugin(hook, vm) {
         return pageContent
     }
 
+    /* tagPlugin: filterByTag(), getTagList(), renderTagPage() */
+    function filterByTag(tag) {
+        return jsonVariable.filter(item => {
+            if (!item || !item.tag) return false;
+            return item.tag.includes(tag);
+        });
+    }
+
+    function getTagList() {
+        const tagList = [];
+        jsonVariable.forEach(item => {
+            if (typeof item.tag === 'object' && item.tag.length > 0) {
+                item.tag.forEach(tag => {
+                    if (!tagList.includes(tag)) {
+                        tagList.push(tag);
+                    }
+                });
+            } else if (typeof item.tag === 'string' && item.tag.length > 0) {
+                if (!tagList.includes(item.tag)) {
+                    tagList.push(item.tag);
+                }
+            }
+        });
+        return tagList;
+    }
+
     hook.init(() => {
         try {
             jsonVariable = getJson(metadataUrl);
         } catch (e) {
             console.error(`Failed to fetch ${metadataUrl}.json.`, e);
         }
+        tagList = getTagList();
     })
 
     hook.beforeEach((content) => {
@@ -344,6 +371,59 @@ function dashboardPlugin(hook, vm) {
             }
             return content.replace(/<!--\s*dashboard\s*-->/gm, dashboardContent);
         }
+    });
+
+    function renderTagPage() {
+        const path = window.location.href;
+        hasTags = path.includes('tags');
+        tagPageDiv = document.getElementsByClassName('markdown-section')[0]
+
+        if (!hasTags) {
+            return;
+        }
+        
+        var tagName = path.split('?tag=')[1];
+        if (tagName.includes('%20')) {
+            tagName = tagName.replace(/%20/g, ' ');
+        }
+
+        const filteredItems = filterByTag(tagName);
+
+        if (filteredItems && filteredItems.length > 0) {
+            let tagBoardContent = `<h1>${tagName}</h1>\n<hr>`;
+            tagBoardContent += `\n<div class="toc-page-div">\n`;
+            for (let i = 0; i < filteredItems.length; i++) {
+                tagBoardContent += buildPageFromJson(filteredItems[i]);
+            }
+            tagBoardContent += `\n</div>\n`;
+
+            tagPageDiv.innerHTML = tagBoardContent + tagPageDiv.innerHTML;
+        } else {
+            tagBoardContent = `<h1>Tags</h1>\n<hr>`;
+            tagBoardContent += `\n${tagList.map(tag => `<a href="#/tags?tag=${tag}" target="_blank">${tag}</a>`).join(' | ')}\n`;
+            tagPageDiv.innerHTML = tagBoardContent + tagPageDiv.innerHTML;
+        }
+
+        window.addEventListener('hashchange', () => {
+            location.reload();
+        });
+    };
+
+    function renderSidebarTagList() {
+        let node = document.querySelector('.sidebar-nav');
+
+        if (node.innerHTML.includes("<!-- tag-list -->")) {
+            let tagListContent = `<div class="tag-container"><div class="tag-list">`;
+            tagListContent += `${tagList.map(tag => `<a class="tag-element" href="#/tags?tag=${tag}" target="_blank">${tag}</a>`).join('\n')}`;
+            tagListContent += `</div></div>`;
+
+            node.innerHTML = node.innerHTML.replace('<!-- tag-list -->', tagListContent);
+        }
+    }
+
+    hook.doneEach(() => {        
+        renderTagPage();
+        renderSidebarTagList();
     });
 };
 
