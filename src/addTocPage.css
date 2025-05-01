@@ -41,6 +41,7 @@
     --dashboard-card-img-min-width: 100%;
     --dashboard-card-img-min-height: 160px;
     --dashboard-card-img-max-height: 160px;
+    --dashboard-card-img-border: 0.1em solid #ced4da;
 
     /* list theme */
     --dashboard-list-theme-max-width: var(--content-max-width, 100%);
@@ -96,7 +97,7 @@
     min-height: var(--dashboard-card-img-min-height, 200px);
     max-height: var(--dashboard-card-img-max-height, 200px);
     overflow: hidden;
-    border: 0.1em solid #868e96;
+    border: var(--dashboard-card-img-border);
 }
 
 .toc-page-display-a img {

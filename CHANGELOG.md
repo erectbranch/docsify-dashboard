@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.2.1
+
+_2025-05-01_
+
+### Changed
+
+- Added a `:root` variable for image styles.
+
 ## 2.2.0
 
 _2025-05-01_

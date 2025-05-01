@@ -20,13 +20,13 @@ To use the dashboard, you need to include the plugin in your Docsify `index.html
 **Add stylesheet**
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@2.2.0/dist/dashboard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@2.2.1/dist/dashboard.min.css">
 ```
 
 **Add script**
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@2.2.0/dist/docsify-dashboard.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@2.2.1/dist/docsify-dashboard.min.js"></script>
 
 <!-- The docsify-tabs plugin (must be included after the docsify-dashboard plugin) -->
 <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1/dist/docsify-tabs.min.js"></script>
@@ -127,28 +127,6 @@ The dashboard can be customized using CSS. You can override the following CSS va
 
 ### Dashboard
 
-| Style | Description |
-| --- | --- |
-| `--dashboard-card-border-radius` | The border radius of the card. |
-| `--dashboard-card-margin-top` | The margin top of the card. |
-| `--dashboard-card-bg-color` | The background color of the card. |
-| `--dashboard-card-max-width` | The maximum width of the card. |
-| `--dashboard-card-min-height` | The minimum height of the card. |
-| `--dashboard-card-shadow` | The shadow of the card. |
-| `--dashboard-card-text-align` | The text alignment of the card. |
-| `--dashboard-card-text-color` | The text color of the card. |
-| `--dashboard-card-title-font-size` | The font size of the title text. |
-| `--dashboard-card-title-font-weight` | The font weight of the title text. |
-| `--dashboard-card-subtitle-font-size` | The font size of the subtitle text. |
-| `--dashboard-card-subtitle-color` | The color of the subtitle text. |
-| `--dashboard-card-date-font-size` | The font size of the date text. |
-| `--dashboard-card-date-color` | The color of the date text. |
-| `--dashboard-card-img-min-width` | The minimum width of the image. |
-| `--dashboard-card-img-min-height` | The minimum height of the image. |
-| `--dashboard-card-img-max-height` | The maximum height of the image. |
-| `--dashboard-list-theme-max-width` | The maximum width of the `list` theme. |
-| `--dashboard-list-theme-img-max-width` | The maximum width of the image in the `list` theme. |
-
 To change the styles, you can add the following CSS to your `index.html` file:
 
 ```html
@@ -177,6 +155,7 @@ To change the styles, you can add the following CSS to your `index.html` file:
     --dashboard-card-img-min-width: 100%;
     --dashboard-card-img-min-height: 160px;
     --dashboard-card-img-max-height: 160px;
+    --dashboard-card-img-border: 0.1em solid #ced4da;
 
     /* list theme */
     --dashboard-list-theme-max-width: var(--content-max-width, 100%);
@@ -186,13 +165,6 @@ To change the styles, you can add the following CSS to your `index.html` file:
 ```
 
 ### Tag-Dashboard
-
-| Style | Description |
-| --- | --- |
-| `--tags-bg-color` | The background color of the tag. |
-| `--tags-font-color` | The font color of the tag. |
-| `--tags-font-size` | The font size of the tag. |
-| `--tags-margin-top` | The top margin size of the tag. |
 
 To change the tag-list styles, add the following CSS:
 
