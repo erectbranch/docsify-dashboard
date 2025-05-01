@@ -42,6 +42,10 @@
     --dashboard-card-img-min-height: 160px;
     --dashboard-card-img-max-height: 160px;
 
+    /* list theme */
+    --dashboard-list-theme-max-width: var(--content-max-width, 100%);
+    --dashboard-list-theme-img-max-width: 200px;
+
     /* tag style */
     --tags-bg-color: #fafbfbff;
     --tags-font-color: #54cca7ff;
@@ -240,7 +244,7 @@ body.force-close {
 /* list theme */
 .toc-page-display-a#list {
     width: calc(100% - 20px);
-    max-width: calc(40vw + 20px);
+    max-width: var(--dashboard-list-theme-max-width);
     min-height: 0;
     border-bottom: 0.1em solid #dee2e6;
     margin-bottom: 20px;
@@ -254,13 +258,8 @@ body.force-close {
     float: right;
     min-width: 100px;
     min-height: 100px;
-    max-width: 200px;
+    max-width: var(--dashboard-list-theme-img-max-width, 200px);
     margin: 0px 10px 30px 10px;
-}
-
-.toc-page-display-title-div#list {
-    min-width: 40vw;
-    max-width: 40vw;
 }
 
 @media screen and (max-width: 768px) {

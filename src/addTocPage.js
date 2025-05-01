@@ -258,6 +258,7 @@ function dashboardPlugin(hook, vm) {
     const metadataUrl = dashboardConfig.metadataUrl || "metadata/posts";
     const sortPosts = dashboardConfig.sort || false;
     const dashboardTheme = dashboardConfig.theme || "default";
+    const tagboardTheme = dashboardConfig.tagboardTheme || "default";
 
     const getJson = (fileName) => {
         let xhttp = new XMLHttpRequest();
@@ -287,7 +288,7 @@ function dashboardPlugin(hook, vm) {
         return false
     }
 
-    function buildPageFromJson(postMetadata) {
+    function buildPageFromJson(postMetadata, boardTheme) {
         hasSubtitle = testJsonKey(postMetadata, "subtitle")
         let pageContent = ""
 
@@ -296,7 +297,7 @@ function dashboardPlugin(hook, vm) {
         } else {
             var { time, title, tag, image, href } = postMetadata;
 
-            if (dashboardTheme === "list") {
+            if (boardTheme === "list") {
                 subtitle = "&nbsp;";
                 hasSubtitle = true;
             }
@@ -306,25 +307,25 @@ function dashboardPlugin(hook, vm) {
             tag = tag.join(' ⋅ ');
         }
         
-        pageContent += `<a class="toc-page-display-a" id="${dashboardTheme}" href="${href}" target="_blank">
-            <div class="toc-page-display-div" id="${dashboardTheme}">
-                <div class="toc-page-display-title-img" id="${dashboardTheme}">
+        pageContent += `<a class="toc-page-display-a" id="${boardTheme}" href="${href}" target="_blank">
+            <div class="toc-page-display-div" id="${boardTheme}">
+                <div class="toc-page-display-title-img" id="${boardTheme}">
                     <center>
                         <img class="ignore-view-full-image-img" src="${image}">
                     </center>
                 </div>
-                <div class="toc-page-display-title-div" id="${dashboardTheme}">
+                <div class="toc-page-display-title-div" id="${boardTheme}">
                     ${title}
                 </div>`;
         if ( hasSubtitle ) {
             pageContent += `
-                <div class="toc-page-display-subtitle-div" id="${dashboardTheme}">
+                <div class="toc-page-display-subtitle-div" id="${boardTheme}">
                     ${subtitle}
                 </div>`;
         }
         
         pageContent += `
-                <div class="toc-page-display-date-div" id="${dashboardTheme}">
+                <div class="toc-page-display-date-div" id="${boardTheme}">
                     ${time} &nbsp;&nbsp; ${tag}
                 </div>
             </div>
@@ -384,7 +385,7 @@ function dashboardPlugin(hook, vm) {
                     if (jsonIndex >= jsonVariable.length) {
                         break;
                     }
-                    dashboardContent += buildPageFromJson(jsonVariable[jsonIndex])
+                    dashboardContent += buildPageFromJson(jsonVariable[jsonIndex], dashboardTheme);
                 }
                 dashboardContent += `</div>\n\n`;
                 tabIndex++;
@@ -417,7 +418,7 @@ function dashboardPlugin(hook, vm) {
             let tagBoardContent = `<h1>${tagName}</h1>\n<hr>`;
             tagBoardContent += `\n<div class="toc-page-div">\n`;
             for (let i = 0; i < filteredItems.length; i++) {
-                tagBoardContent += buildPageFromJson(filteredItems[i]);
+                tagBoardContent += buildPageFromJson(filteredItems[i], tagboardTheme);
             }
             tagBoardContent += `\n</div>\n`;
 

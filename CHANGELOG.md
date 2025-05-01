@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.2.0
+
+_2025-05-01_
+
+### Added
+
+- Added the tag-dashboard theme customization. (`tagboardTheme` **option**)
+
+### Changed
+
+- Added a `:root` variable for `list` theme customization.
+
+- Fixed the issue where the `list` theme styles was not working properly.
+
 ## 2.1.0
 
 _2025-05-01_

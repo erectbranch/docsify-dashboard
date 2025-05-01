@@ -20,13 +20,13 @@ To use the dashboard, you need to include the plugin in your Docsify `index.html
 **Add stylesheet**
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@latest/dist/dashboard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@2.2.0/dist/dashboard.min.css">
 ```
 
 **Add script**
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@latest/dist/docsify-dashboard.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@2.2.0/dist/docsify-dashboard.min.js"></script>
 
 <!-- The docsify-tabs plugin (must be included after the docsify-dashboard plugin) -->
 <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1/dist/docsify-tabs.min.js"></script>
@@ -97,9 +97,10 @@ To configure the dashboard, you can set options in your `index.html` file. The a
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `numTabContent` | `Int` | 3 | Number of cards to show in a docsify-tabs slide. |
-| `metadataUrl` | `String` | metadata/posts | JSON URL to fetch metadata. |
+| `metadataUrl` | `String` | 'metadata/posts' | JSON URL to fetch metadata. |
 | `sort` | `Boolean` | false | Sort the posts by time. (`YYYY.MM.DD`, `YYYY/MM/DD`) |
-| `theme` | `String` | default | Theme for the dashboard. (`default`, `cards`, `list`) |
+| `theme` | `String` | 'default' | Theme for the dashboard. (`default`, `cards`, `list`) |
+| `tagboardTheme` | `String` | 'default' | Theme for the tag-dashboard. |
 
 
 ```javascript
@@ -108,7 +109,8 @@ window.$docsify = {
     numTabContent: 3,
     metadataUrl: 'metadata/posts',       // do not include '.json' extension
     sort: false,                         // sort the posts by time
-    theme: 'default'                     // (1) default, (2) cards, (3) list
+    theme: 'default',                    // (1) default, (2) cards, (3) list
+    tagboardTheme: 'default'             // options are same as above
   },
 
   tabs: {
@@ -144,6 +146,8 @@ The dashboard can be customized using CSS. You can override the following CSS va
 | `--dashboard-card-img-min-width` | The minimum width of the image. |
 | `--dashboard-card-img-min-height` | The minimum height of the image. |
 | `--dashboard-card-img-max-height` | The maximum height of the image. |
+| `--dashboard-list-theme-max-width` | The maximum width of the `list` theme. |
+| `--dashboard-list-theme-img-max-width` | The maximum width of the image in the `list` theme. |
 
 To change the styles, you can add the following CSS to your `index.html` file:
 
@@ -173,6 +177,10 @@ To change the styles, you can add the following CSS to your `index.html` file:
     --dashboard-card-img-min-width: 100%;
     --dashboard-card-img-min-height: 160px;
     --dashboard-card-img-max-height: 160px;
+
+    /* list theme */
+    --dashboard-list-theme-max-width: var(--content-max-width, 100%);
+    --dashboard-list-theme-img-max-width: 200px;
   }
 </style>
 ```
