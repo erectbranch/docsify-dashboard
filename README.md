@@ -36,7 +36,7 @@ To use the dashboard, you need to include the plugin in your Docsify `index.html
 
 ### Dashboard
 
-1. Create a JSON file with the metadata of the posts. The metadata should be structured as follows:
+1. Create a metadata file(`metadata/posts.json`) of the posts. The metadata should be structured as follows:
 
     > **Notes** "*subtitle*" information is optional
 
@@ -98,12 +98,17 @@ To configure the dashboard, you can set options in your `index.html` file. The a
 | --- | --- | --- | --- |
 | `numTabContent` | `Int` | 3 | Number of cards to show in a docsify-tabs slide. |
 | `metadataUrl` | `String` | metadata/posts | JSON URL to fetch metadata. |
+| `sort` | `Boolean` | false | Sort the posts by time. (`YYYY.MM.DD`, `YYYY/MM/DD`) |
+| `theme` | `String` | default | Theme for the dashboard. (`default`, `cards`, `list`) |
+
 
 ```javascript
 window.$docsify = {
   dashboard: {
     numTabContent: 3,
-    metadataUrl: 'metadata/posts'       // do not include '.json' extension
+    metadataUrl: 'metadata/posts',       // do not include '.json' extension
+    sort: false,                         // sort the posts by time
+    theme: 'default'                     // (1) default, (2) cards, (3) list
   },
 
   tabs: {
@@ -132,6 +137,8 @@ The dashboard can be customized using CSS. You can override the following CSS va
 | `--dashboard-card-text-color` | The text color of the card. |
 | `--dashboard-card-title-font-size` | The font size of the title text. |
 | `--dashboard-card-title-font-weight` | The font weight of the title text. |
+| `--dashboard-card-subtitle-font-size` | The font size of the subtitle text. |
+| `--dashboard-card-subtitle-color` | The color of the subtitle text. |
 | `--dashboard-card-date-font-size` | The font size of the date text. |
 | `--dashboard-card-date-color` | The color of the date text. |
 | `--dashboard-card-img-min-width` | The minimum width of the image. |
@@ -148,16 +155,18 @@ To change the styles, you can add the following CSS to your `index.html` file:
     --dashboard-card-border-radius: 5px;
     --dashboard-card-margin-top: 10px; 
     --dashboard-card-bg-color: #ffffff; 
-    --dashboard-card-max-width: 300px;
+    --dashboard-card-max-width: 330px;
     --dashboard-card-min-height: 220px;
     --dashboard-card-shadow: 0 0.3em 0.3em rgba(0,0,0,0.2);
 
     /* card text */
     --dashboard-card-text-align: left; 
     --dashboard-card-text-color: #000000;
-    --dashboard-card-title-font-size: 1.1rem; 
-    --dashboard-card-title-font-weight: bolder; 
-    --dashboard-card-date-font-size: 1rem; 
+    --dashboard-card-title-font-size: 1.2rem; 
+    --dashboard-card-title-font-weight: bolder;
+    --dashboard-card-subtitle-font-size: 1rem; 
+    --dashboard-card-subtitle-color: #808080; 
+    --dashboard-card-date-font-size: 0.8rem; 
     --dashboard-card-date-color: #808080;
 
     /* card image */
@@ -175,6 +184,7 @@ To change the styles, you can add the following CSS to your `index.html` file:
 | `--tags-bg-color` | The background color of the tag. |
 | `--tags-font-color` | The font color of the tag. |
 | `--tags-font-size` | The font size of the tag. |
+| `--tags-margin-top` | The top margin size of the tag. |
 
 To change the tag-list styles, add the following CSS:
 

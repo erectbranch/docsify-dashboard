@@ -256,12 +256,28 @@ function dashboardPlugin(hook, vm) {
     const dashboardConfig = vm.config.dashboard || {};
     const numTabContent = dashboardConfig.numTabContent || 3;
     const metadataUrl = dashboardConfig.metadataUrl || "metadata/posts";
+    const sortPosts = dashboardConfig.sort || false;
+    const dashboardTheme = dashboardConfig.theme || "default";
 
     const getJson = (fileName) => {
         let xhttp = new XMLHttpRequest();
         xhttp.open("GET", `${fileName}.json`, false);
         xhttp.send(null);
         return JSON.parse(xhttp.response);
+    }
+
+    // time: YYYY.MM.DD or YYYY/MM/DD
+    function sortJsonByTime(jsonVariable) {
+        jsonVariable.sort((a, b) => {
+            let aTime = a.time.replace(/\./g, '/');
+            let bTime = b.time.replace(/\./g, '/');
+
+            let aDate = new Date(aTime);
+            let bDate = new Date(bTime);
+
+            return bDate - aDate;
+        });
+        return jsonVariable;
     }
 
     function testJsonKey(json, key) {
@@ -279,31 +295,36 @@ function dashboardPlugin(hook, vm) {
             var { time, title, subtitle, tag, image, href } = postMetadata;
         } else {
             var { time, title, tag, image, href } = postMetadata;
+
+            if (dashboardTheme === "list") {
+                subtitle = "&nbsp;";
+                hasSubtitle = true;
+            }
         }
 
         if (Array.isArray(tag)) {
             tag = tag.join(' ⋅ ');
         }
         
-        pageContent += `<a class="toc-page-display-a" href="${href}" target="_blank">
-            <div class="toc-page-display-div">
-                <div class="toc-page-display-title-img">
+        pageContent += `<a class="toc-page-display-a" id="${dashboardTheme}" href="${href}" target="_blank">
+            <div class="toc-page-display-div" id="${dashboardTheme}">
+                <div class="toc-page-display-title-img" id="${dashboardTheme}">
                     <center>
                         <img class="ignore-view-full-image-img" src="${image}">
                     </center>
                 </div>
-                <div class="toc-page-display-title-div">
+                <div class="toc-page-display-title-div" id="${dashboardTheme}">
                     ${title}
                 </div>`;
         if ( hasSubtitle ) {
             pageContent += `
-                <div class="toc-page-display-subtitle-div">
+                <div class="toc-page-display-subtitle-div" id="${dashboardTheme}">
                     ${subtitle}
                 </div>`;
         }
         
         pageContent += `
-                <div class="toc-page-display-date-div">
+                <div class="toc-page-display-date-div" id="${dashboardTheme}">
                     ${time} &nbsp;&nbsp; ${tag}
                 </div>
             </div>
@@ -341,6 +362,9 @@ function dashboardPlugin(hook, vm) {
     hook.init(() => {
         try {
             jsonVariable = getJson(metadataUrl);
+            if (sortPosts) {
+                jsonVariable = sortJsonByTime(jsonVariable);
+            }
         } catch (e) {
             console.error(`Failed to fetch ${metadataUrl}.json.`, e);
         }

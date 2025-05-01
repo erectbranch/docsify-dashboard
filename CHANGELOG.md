@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.1.0
+
+_2025-05-01_
+
+### Added
+
+- Added the theme customization. (`theme` **option**)
+
+- Added support for sorting posts in "*time*" format. (`sort` option)
+
+### Changed
+
+- Changed the default styles. (max-width, margin, etc.)
+
+- Added `:root` variables for "*subtitle*" styles.
+
 ## 2.0.0
 
 _2025-04-30_

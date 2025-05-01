@@ -23,16 +23,18 @@
     --dashboard-card-border-radius: 5px;
     --dashboard-card-margin-top: 10px; 
     --dashboard-card-bg-color: #ffffff; 
-    --dashboard-card-max-width: 300px;
+    --dashboard-card-max-width: 330px;
     --dashboard-card-min-height: 220px;
     --dashboard-card-shadow: 0 0.3em 0.3em rgba(0,0,0,0.2);
 
     /* card text */
     --dashboard-card-text-align: left; 
     --dashboard-card-text-color: #000000;
-    --dashboard-card-title-font-size: 1.1rem; 
+    --dashboard-card-title-font-size: 1.2rem; 
     --dashboard-card-title-font-weight: bolder; 
-    --dashboard-card-date-font-size: 1rem; 
+    --dashboard-card-subtitle-font-size: 1rem; 
+    --dashboard-card-subtitle-color: #808080;
+    --dashboard-card-date-font-size: 0.8rem; 
     --dashboard-card-date-color: #808080;
 
     /* card image */
@@ -53,7 +55,6 @@
 }
 
 .toc-page-display-a {
-    border-radius: var(--dashboard-card-border-radius, 0px);
     display: inline-block;
     width: calc(50% - 25px);  
     margin-bottom: 10px;
@@ -64,7 +65,7 @@
     text-decoration: none !important;
     color: var(--dashboard-card-text-color, #fff) !important;
     max-width: var(--dashboard-card-max-width, 400px);
-    box-shadow: var(--dashboard-card-shadow, none);
+    line-height: normal;
 }
 
 @media screen and (max-width: 768px) {
@@ -78,12 +79,12 @@
 
 .toc-page-display-a:nth-child(even) {
     margin-left: 0px;
-    margin-right: 17px;
+    margin-right: 25px;
 }
 
 .toc-page-display-a:nth-child(odd) {
     margin-left: 0px;
-    margin-right: 17px;
+    margin-right: 25px;
 }
 
 .toc-page-display-title-img {
@@ -91,8 +92,7 @@
     min-height: var(--dashboard-card-img-min-height, 200px);
     max-height: var(--dashboard-card-img-max-height, 200px);
     overflow: hidden;
-    border-top-left-radius: var(--dashboard-card-border-radius, 0px);
-    border-top-right-radius: var(--dashboard-card-border-radius, 0px);
+    border: 0.1em solid #868e96;
 }
 
 .toc-page-display-a img {
@@ -115,24 +115,23 @@
 }
 
 .toc-page-display-title-div {
-    padding: 20px 20px 5px 20px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    padding: 15px 0px 5px 0px;
+    white-space: normal;
+    overflow-wrap: break-word;
     font-size: var(--dashboard-card-title-font-size, 1rem);
     font-weight: var(--dashboard-card-title-font-weight, bolder);
 }
 
 .toc-page-display-subtitle-div {
-    padding: 0 20px 20px 20px;
+    padding: 0 0px 5px 0px;
     white-space: normal;
     overflow-wrap: break-word;
-    font-size: var(--dashboard-card-date-font-size, 0.75rem);
-    color: var(--dashboard-card-date-color, rgba(255, 255, 255, .4));
+    font-size: var(--dashboard-card-subtitle-font-size, 0.75rem);
+    color: var(--dashboard-card-subtitle-color, rgba(255, 255, 255, .4));
 }
 
 .toc-page-display-date-div {
-    padding: 0 20px 20px 20px;
+    padding: 10px 0px 20px 0px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -209,6 +208,68 @@ body.force-close {
         display: inherit !important;
     }
 }
+
+/* cards theme */
+.toc-page-display-a#cards {
+    border-radius: var(--dashboard-card-border-radius, 0px);
+    box-shadow: var(--dashboard-card-shadow, none);
+}
+
+.toc-page-display-title-div#cards {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 15px 20px 5px 20px;
+}
+
+.toc-page-display-title-img#cards {
+    border-top-left-radius: var(--dashboard-card-border-radius, 0px);
+    border-top-right-radius: var(--dashboard-card-border-radius, 0px);
+    border: transparent;
+}
+
+.toc-page-display-subtitle-div#cards {
+    padding: 0 20px 5px 20px;
+}
+
+.toc-page-display-date-div#cards {
+    padding: 10px 20px 20px 20px;
+}
+/* cards theme end */
+
+/* list theme */
+.toc-page-display-a#list {
+    width: calc(100% - 20px);
+    max-width: calc(40vw + 20px);
+    min-height: 0;
+    border-bottom: 0.1em solid #dee2e6;
+    margin-bottom: 20px;
+}
+
+.toc-page-display-div#list {
+    display: block;
+}
+
+.toc-page-display-title-img#list {
+    float: right;
+    min-width: 100px;
+    min-height: 100px;
+    max-width: 200px;
+    margin: 0px 10px 30px 10px;
+}
+
+.toc-page-display-title-div#list {
+    min-width: 40vw;
+    max-width: 40vw;
+}
+
+@media screen and (max-width: 768px) {
+    .toc-page-display-title-img#list {
+        max-width: 80px;
+        max-height: 80px;
+    }
+}
+/* list theme end */
 
 .tag-list .tag-element {
     background-color: var(--tags-bg-color);
