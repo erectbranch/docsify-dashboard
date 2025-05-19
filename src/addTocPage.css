@@ -52,6 +52,11 @@
     --tags-font-color: #54cca7ff;
     --tags-font-size: var(--base-font-size);
     --tags-margin-top: 5px;
+
+    --sidebar-tags-bg-color: var(--tags-bg-color);
+    --sidebar-tags-font-color: var(--tags-font-color);
+    --sidebar-tags-font-size: var(--tags-font-size);
+    --sidebar-tags-margin-top: var(--tags-margin-top);
 }
 
 .toc-page-display-div {
@@ -283,4 +288,11 @@ body.force-close {
     padding: 2px 10px;
     margin-top: var(--tags-margin-top);
     margin-right: 5px;
+}
+
+.tag-list .tag-element#sidebar {
+    background-color: var(--sidebar-tags-bg-color);
+    color: var(--sidebar-tags-font-color);
+    font-size: var(--sidebar-tags-font-size);
+    margin-top: var(--sidebar-tags-margin-top);
 }

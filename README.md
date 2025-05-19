@@ -20,73 +20,109 @@ To use the dashboard, you need to include the plugin in your Docsify `index.html
 **Add stylesheet**
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@2.2.1/dist/dashboard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@2.3.0/dist/dashboard.min.css">
 ```
 
 **Add script**
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@2.2.1/dist/docsify-dashboard.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@2.3.0/dist/docsify-dashboard.min.js"></script>
 
 <!-- The docsify-tabs plugin (must be included after the docsify-dashboard plugin) -->
 <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1/dist/docsify-tabs.min.js"></script>
+```
+
+## Structure
+
+The following directory structure is used:
+
+- `tags.md`: Empty file for rendering a dashboard by tags in the URL. (e.g., `#/tags?tag=travel`)
+
+- `posts.json`: Metadata file containing the posts information.
+
+```bash
+.
+└── docs
+    ├── index.html
+    └── tags.md
+    └── metadata
+        └── posts.json
+```
+
+Metadata file example(`metadata/posts.json`)
+
+> **Notes**: "*subtitle*" information is optional
+
+```json
+[
+    {
+        "time": "2025.04.06",
+        "title": "Shanwei, China",
+        "tag": "5 min read",
+        "image": "assets/images/shanwei.jpg",
+        "href": "#/topic-one"
+    },
+    {
+        "time": "2025.04.05",
+        "title": "Melbourne, Australia",
+        "tag": "3 min read",
+        "image": "assets/images/melbourne.png",
+        "href": "#/topic-two",
+        "subtitle": "A beautiful city in Australia"
+    }
+]
 ```
 
 ## Usage
 
 ### Dashboard
 
-1. Create a metadata file(`metadata/posts.json`) of the posts. The metadata should be structured as follows:
+You can create a dashboard by adding the following code to your markdown file:
 
-    > **Notes** "*subtitle*" information is optional
+```markdown
+<!-- tabs:start -->
 
-    ```json
-    [
-        {
-            "time": "2025.04.06",
-            "title": "Shanwei, China",
-            "tag": "5 min read",
-            "image": "assets/images/shanwei.jpg",
-            "href": "#/topic-one"
-        },
-        {
-            "time": "2025.04.05",
-            "title": "Melbourne, Australia",
-            "tag": "3 min read",
-            "image": "assets/images/melbourne.png",
-            "href": "#/topic-two",
-            "subtitle": "A beautiful city in Australia"
-        }
-    ]
-    ```
+<!-- dashboard -->
 
-2. To create an dashboard, just add the following code to your markdown file:
+<!-- tabs:end -->
+```
 
-    ```markdown
-    <!-- tabs:start -->
+### Tag-dashboard
 
-    <!-- dashboard -->
+You can display a tag list by adding the following code to your markdown file:
 
-    <!-- tabs:end -->
-    ```
+- **In sidebar file**: display all tags in the metadata.
 
-### Tag-Dashboard
+- **In markdown file**: only display the current page's tags.
 
-1. Create a empty markdown file for rendering the tag dashboard(`tags.md`)
+```markdown
+<!-- tag-list -->
+```
 
-    ```bash
-    docs/
-    ├── metadata/
-    │   └── posts.json
-    ├── index.html
-    └── tags.md
-    ```
+It will redirect to the tag-dashboard containing all posts that have the same tag.
 
-2. To create a sidebar tag list, just add the following code to your sidebar file(e.g. `_sidebar.md`):
+## Example
 
-    ```markdown
-    <!-- tag-list -->
-    ```
+### Footer with Page Tags
+
+Add a page footer to display the tags on each page.
+
+```javascript
+window.$docsify = {
+  plugins: [
+    function pageFooter(hook, vm) {
+      var footer = [
+        '<!-- tag-list -->',
+        '<hr/>',
+      ].join('');
+
+      hook.afterEach(function (html) {
+        return html + footer;
+      });
+    },
+  ],
+};
+```
 
 ---
 
@@ -94,12 +130,14 @@ To use the dashboard, you need to include the plugin in your Docsify `index.html
 
 To configure the dashboard, you can set options in your `index.html` file. The available options are:
 
+- **Theme**: `default`, `cards`, `list`
+
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `numTabContent` | `Int` | 3 | Number of cards to show in a docsify-tabs slide. |
 | `metadataUrl` | `String` | 'metadata/posts' | JSON URL to fetch metadata. |
 | `sort` | `Boolean` | false | Sort the posts by time. (`YYYY.MM.DD`, `YYYY/MM/DD`) |
-| `theme` | `String` | 'default' | Theme for the dashboard. (`default`, `cards`, `list`) |
+| `theme` | `String` | 'default' | Theme for the dashboard. |
 | `tagboardTheme` | `String` | 'default' | Theme for the tag-dashboard. |
 
 
@@ -164,7 +202,7 @@ To change the styles, you can add the following CSS to your `index.html` file:
 </style>
 ```
 
-### Tag-Dashboard
+### Tag-dashboard
 
 To change the tag-list styles, add the following CSS:
 
@@ -176,6 +214,11 @@ To change the tag-list styles, add the following CSS:
     --tags-font-color: #54cca7ff;
     --tags-font-size: var(--base-font-size);
     --tags-margin-top: 5px;
+
+    --sidebar-tags-bg-color: var(--tags-bg-color);
+    --sidebar-tags-font-color: var(--tags-font-color);
+    --sidebar-tags-font-size: var(--tags-font-size);
+    --sidebar-tags-margin-top: var(--tags-margin-top);
   }
 </style>
 ```

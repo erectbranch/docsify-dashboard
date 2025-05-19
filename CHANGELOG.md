@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.3.0
+
+_2025-05-19_
+
+### Added
+
+- Added support for rendering tag list in the markdown section.
+
+### Changed
+
+- Added a id attribute for the tag list in the sidebar.
+
+- Added `:root` variables for the tag styles in the sidebar.
+
 ## 2.2.1
 
 _2025-05-01_

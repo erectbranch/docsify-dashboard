@@ -334,7 +334,7 @@ function dashboardPlugin(hook, vm) {
         return pageContent
     }
 
-    /* tagPlugin: filterByTag(), getTagList(), renderTagPage() */
+    /* tagPlugin: filterByTag(), filterByHref(), getTagList(), renderTagPage() */
     function filterByTag(tag) {
         return jsonVariable.filter(item => {
             if (!item || !item.tag) return false;
@@ -342,7 +342,14 @@ function dashboardPlugin(hook, vm) {
         });
     }
 
-    function getTagList() {
+    function filterByHref(href) {
+        return jsonVariable.filter(item => {
+            if (!item || !item.href) return false;
+            return item.href.includes(href);
+        });
+    }
+
+    function getTagList(jsonVariable) {
         const tagList = [];
         jsonVariable.forEach(item => {
             if (typeof item.tag === 'object' && item.tag.length > 0) {
@@ -369,7 +376,7 @@ function dashboardPlugin(hook, vm) {
         } catch (e) {
             console.error(`Failed to fetch ${metadataUrl}.json.`, e);
         }
-        tagList = getTagList();
+        tagList = getTagList(jsonVariable);
     })
 
     hook.beforeEach((content) => {
@@ -415,7 +422,7 @@ function dashboardPlugin(hook, vm) {
         const filteredItems = filterByTag(tagName);
 
         if (filteredItems && filteredItems.length > 0) {
-            let tagBoardContent = `<h1>${tagName}</h1>\n<hr>`;
+            let tagBoardContent = `<h1>tag: ${tagName}</h1>\n<hr>`;
             tagBoardContent += `\n<div class="toc-page-div">\n`;
             for (let i = 0; i < filteredItems.length; i++) {
                 tagBoardContent += buildPageFromJson(filteredItems[i], tagboardTheme);
@@ -439,6 +446,28 @@ function dashboardPlugin(hook, vm) {
 
         if (node.innerHTML.includes("<!-- tag-list -->")) {
             let tagListContent = `<div class="tag-container"><div class="tag-list">`;
+            tagListContent += `${tagList.map(tag => `<a class="tag-element" id="sidebar" href="#/tags?tag=${tag}" target="_blank">${tag}</a>`).join('\n')}`;
+            tagListContent += `</div></div>`;
+
+            node.innerHTML = node.innerHTML.replace('<!-- tag-list -->', tagListContent);
+        }
+    }
+
+    function renderPageTagList() {
+        let node = document.querySelector('.markdown-section');
+        let pathHref = `#/${window.location.href.split('/#/')[1]}`;
+
+        if (node.innerHTML.includes("<!-- tag-list -->")) {
+            const pageMetadata = filterByHref(pathHref)[0];
+            hasTags = testJsonKey(pageMetadata, "tag");
+
+            if (!hasTags) {
+                return;
+            }
+
+            var tagList = getTagList([pageMetadata]);
+
+            let tagListContent = `<div class="tag-container"><div class="tag-list">`;
             tagListContent += `${tagList.map(tag => `<a class="tag-element" href="#/tags?tag=${tag}" target="_blank">${tag}</a>`).join('\n')}`;
             tagListContent += `</div></div>`;
 
@@ -449,6 +478,7 @@ function dashboardPlugin(hook, vm) {
     hook.doneEach(() => {        
         renderTagPage();
         renderSidebarTagList();
+        renderPageTagList();
     });
 };
 
