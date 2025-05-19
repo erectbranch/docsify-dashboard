@@ -459,11 +459,7 @@ function dashboardPlugin(hook, vm) {
 
         if (node.innerHTML.includes("<!-- tag-list -->")) {
             const pageMetadata = filterByHref(pathHref)[0];
-            hasTags = testJsonKey(pageMetadata, "tag");
-
-            if (!hasTags) {
-                return;
-            }
+            if (!pageMetadata) return;
 
             var tagList = getTagList([pageMetadata]);
 

@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.3.1
+
+_2025-05-20_
+
+### Changed
+
+- Fixed the issue where the tag list was not rendering properly in the markdown.
+
 ## 2.3.0
 
 _2025-05-19_
