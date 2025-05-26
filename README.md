@@ -156,7 +156,7 @@ window.$docsify = {
     metadataUrl: 'metadata/posts',       // do not include '.json' extension
     sort: false,                         // sort the posts by time
     theme: 'default',                    // (1) default, (2) cards, (3) list
-    tagboardTheme: 'default'             // options are same as above
+    tagboardTheme: 'default',            // options are same as above
     pagination: false                    // enable pagination for the dashboard
   }
 };
