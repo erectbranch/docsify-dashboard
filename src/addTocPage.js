@@ -259,6 +259,7 @@ function dashboardPlugin(hook, vm) {
     const sortPosts = dashboardConfig.sort || false;
     const dashboardTheme = dashboardConfig.theme || "default";
     const tagboardTheme = dashboardConfig.tagboardTheme || "default";
+    const pagination = dashboardConfig.pagination || false;
 
     const getJson = (fileName) => {
         let xhttp = new XMLHttpRequest();
@@ -307,7 +308,7 @@ function dashboardPlugin(hook, vm) {
             tag = tag.join(' ⋅ ');
         }
         
-        pageContent += `<a class="toc-page-display-a" id="${boardTheme}" href="${href}" target="_blank">
+        pageContent += `        <a class="toc-page-display-a" id="${boardTheme}" href="${href}" target="_blank">
             <div class="toc-page-display-div" id="${boardTheme}">
                 <div class="toc-page-display-title-img" id="${boardTheme}">
                     <center>
@@ -329,7 +330,7 @@ function dashboardPlugin(hook, vm) {
                     ${time} &nbsp;&nbsp; ${tag}
                 </div>
             </div>
-        </a>`;
+        </a>\n`;
 
         return pageContent
     }
@@ -379,31 +380,176 @@ function dashboardPlugin(hook, vm) {
         tagList = getTagList(jsonVariable);
     })
 
-    hook.beforeEach((content) => {
-        if (content.includes("<!-- dashboard -->")) {
-            let dashboardContent = "";
-            let tabIndex = 1;
-            
-            for (let i = 0; i < jsonVariable.length; i++) {
-                dashboardContent += `\n\n#### **${tabIndex}**\n\n`;
-                dashboardContent += `<div class="toc-page-div">\n`;
-                for (let j = 0; j < numTabContent; j++) {
-                    jsonIndex = i * numTabContent + j;
-                    if (jsonIndex >= jsonVariable.length) {
-                        break;
-                    }
-                    dashboardContent += buildPageFromJson(jsonVariable[jsonIndex], dashboardTheme);
-                }
-                dashboardContent += `</div>\n\n`;
-                tabIndex++;
-
-                if (jsonIndex >= jsonVariable.length) {
+    function renderDashboardContent(metadata, dashboardTheme) {
+        let dashboardContent = "";
+        let tabIndex = 1;
+        
+        for (let i = 0; i < metadata.length; i++) {
+            dashboardContent += `\n\n#### **<span id="dashboard-tab">${tabIndex}</span>**\n\n`;
+            dashboardContent += `<div class="toc-page-div">\n`;
+            for (let j = 0; j < numTabContent; j++) {
+                jsonIndex = i * numTabContent + j;
+                if (jsonIndex >= metadata.length) {
                     break;
                 }
+                dashboardContent += buildPageFromJson(metadata[jsonIndex], dashboardTheme);
             }
-            return content.replace(/<!--\s*dashboard\s*-->/gm, dashboardContent);
+            dashboardContent += `</div>\n\n`;
+            tabIndex++;
+
+            if (jsonIndex >= metadata.length) {
+                break;
+            }
+        }
+        return dashboardContent;
+    }
+
+
+    hook.beforeEach((content) => {
+        const dashboardReg = /<!--\s*dashboard(.*?) -->/gm;
+        const dashboardMatch = content.match(dashboardReg) || [];
+        hasDashboard = dashboardMatch.length > 0;      
+        
+        if (hasDashboard) {
+            // e.g., <!-- dashboard:categoryName -->
+            return content.replace(dashboardReg, (string, category) => {
+                let filteredMetadata = jsonVariable;
+
+                if (category && category.trim()) {
+                    category = category.replace(/^:/, '');
+                    filteredMetadata = jsonVariable.filter(item => item.category && item.category.includes(category.trim()));
+                }
+                return string.replace(string, renderDashboardContent(filteredMetadata, dashboardTheme));
+            });
         }
     });
+
+    function replaceDocsifyTabsTheme(html) {
+        if (!hasDashboard) return html;
+
+        let docsifyTabDivClass = 'docsify-tabs docsify-tabs--material docsify-dashboard';
+
+        if (pagination) docsifyTabDivClass += ' pagination';
+
+        const docsifyThemeReg = new RegExp(`<!-- tabs:replace <div class="docsify-tabs (.*?)"> -->`, 'g');
+        return html.replace(docsifyThemeReg, `<!-- tabs:replace <div class="${docsifyTabDivClass}"> -->`);
+    }
+
+    hook.afterEach(function (html, next) {
+        html = replaceDocsifyTabsTheme(html);
+        next(html);
+    });
+
+    function renderTabPagination(dashboardTabDiv, dashboardIndex) {
+        if (!hasDashboard) return;
+
+        const prevButtonId = `prev-tabs-${dashboardIndex}`;
+        const nextButtonId = `next-tabs-${dashboardIndex}`;
+
+        const prevButton = `<button class="docsify-tabs__slide-buttons prev-tabs" id="${prevButtonId}"><i class="fa-solid fa-caret-left"></i></button>\n`;
+        const nextButton = `<button class="docsify-tabs__slide-buttons next-tabs" id="${nextButtonId}"><i class="fa-solid fa-caret-right"></i></button>\n`;
+        dashboardTabDiv.innerHTML = prevButton + nextButton + dashboardTabDiv.innerHTML;
+
+        const dashboardChildElements = dashboardTabDiv.querySelectorAll('*');
+        dashboardChildElements.forEach((element) => {
+            element.classList.add('pagination');
+        });
+
+        let numVisibleTab = 10;
+        if (screen.width < 768) numVisibleTab = 5;
+
+        let activeTabIndex = 1;
+        let tabStorage = JSON.parse(sessionStorage.getItem(`docsify-tabs.persist.${window.location.pathname}`)) || {};
+
+        if (tabStorage[0]) {
+            activeTabIndex = parseInt(tabStorage[dashboardIndex].replace(/^\d+-/, '')) || 1;
+        }
+        let quotient = activeTabIndex / numVisibleTab;
+        let firstActiveTabIndex = Math.floor(quotient) * numVisibleTab + 1;
+
+        const dashboardButtonDiv = dashboardTabDiv.querySelectorAll('.docsify-tabs__tab');
+        let dashboardLength = dashboardButtonDiv.length;
+
+        for (let i = 0; i < numVisibleTab; i++) {
+            if (dashboardButtonDiv[firstActiveTabIndex + i - 1]) {
+                dashboardButtonDiv[firstActiveTabIndex + i - 1].classList.add('current');
+            }
+        }
+
+        for (let i = 0; i < dashboardLength; i++) {
+            dashboardButtonDiv[i].setAttribute('data-tab', `${dashboardIndex}-${dashboardButtonDiv[i].getAttribute('data-tab')}`);
+        }
+
+        const nextTabsButton = dashboardTabDiv.querySelector(`#${nextButtonId}`);
+        const prevTabsButton = dashboardTabDiv.querySelector(`#${prevButtonId}`);
+
+        if (dashboardLength > firstActiveTabIndex + numVisibleTab) nextTabsButton.style.display = 'block';
+        if (firstActiveTabIndex > numVisibleTab) prevTabsButton.style.display = 'block';
+
+        const nextTabSlide = () => {
+            const currentTabs = dashboardTabDiv.querySelectorAll('.docsify-tabs__tab.current');
+            const firstTabIndex = parseInt(currentTabs[0].getAttribute('data-tab').replace(/^\d+-/, ''));
+
+            prevTabsButton.style.display = 'block';
+            if ((firstTabIndex + numVisibleTab * 2) > dashboardLength) {
+                nextTabsButton.style.display = 'none';
+            }
+
+            for (let i = 0; i < currentTabs.length; i++) {
+                let tabIndex = firstTabIndex + i;
+                dashboardButtonDiv[tabIndex - 1].classList.remove('current');
+            }
+
+            for (let i = 0; i < numVisibleTab; i++) {
+                let nextTabIndex = firstTabIndex + numVisibleTab + i;
+                if (nextTabIndex > dashboardLength) break;
+                dashboardButtonDiv[nextTabIndex - 1].classList.add('current');
+            }
+
+            dashboardButtonDiv[firstTabIndex + numVisibleTab - 1].click();
+        }
+
+        const prevTabSlide = () => {
+            const currentTabs = dashboardTabDiv.querySelectorAll('.docsify-tabs__tab.current');
+            const firstTabIndex = parseInt(currentTabs[0].getAttribute('data-tab').replace(/^\d+-/, ''));
+
+            if (firstTabIndex === 1) return;
+
+            nextTabsButton.style.display = 'block';
+
+            if ((firstTabIndex - numVisibleTab)  === 1) prevTabsButton.style.display = 'none';
+
+            for (let i = 0; i < currentTabs.length; i++) {
+                let tabIndex = firstTabIndex + i;
+                dashboardButtonDiv[tabIndex - 1].classList.remove('current');
+            }
+            
+            for (let i = 0; i < numVisibleTab; i++) {
+                dashboardButtonDiv[firstTabIndex - numVisibleTab + i - 1].classList.add('current');
+            }
+
+            dashboardButtonDiv[firstTabIndex - numVisibleTab - 1].click();
+        }
+
+        const syncActiveTabCurrent = () => {
+            const activeTab = dashboardTabDiv.querySelector('.docsify-tabs__tab--active');
+            if (!activeTab) return;
+
+            if (!activeTab.classList.contains('current')) {
+                activeTab.classList.add('current');
+            }
+        }
+
+        document.addEventListener('click', (event) => {
+            if (event.target.id === `${nextButtonId}`) {
+                nextTabSlide();
+                syncActiveTabCurrent();
+            } else if (event.target.id === `${prevButtonId}`) {
+                prevTabSlide();
+                syncActiveTabCurrent();
+            }
+        });
+    }
 
     function renderTagPage() {
         const path = window.location.href;
@@ -422,7 +568,7 @@ function dashboardPlugin(hook, vm) {
         const filteredItems = filterByTag(tagName);
 
         if (filteredItems && filteredItems.length > 0) {
-            let tagBoardContent = `<h1>tag: ${tagName}</h1>\n<hr>`;
+            let tagBoardContent = `<h1 id="tag-dashboard-title">tag: ${tagName}</h1>\n<hr>`;
             tagBoardContent += `\n<div class="toc-page-div">\n`;
             for (let i = 0; i < filteredItems.length; i++) {
                 tagBoardContent += buildPageFromJson(filteredItems[i], tagboardTheme);
@@ -431,7 +577,7 @@ function dashboardPlugin(hook, vm) {
 
             tagPageDiv.innerHTML = tagBoardContent + tagPageDiv.innerHTML;
         } else {
-            tagBoardContent = `<h1>Tags</h1>\n<hr>`;
+            tagBoardContent = `<h1 id="tag-dashboard-title">Tags</h1>\n<hr>`;
             tagBoardContent += `\n${tagList.map(tag => `<a href="#/tags?tag=${tag}" target="_blank">${tag}</a>`).join(' | ')}\n`;
             tagPageDiv.innerHTML = tagBoardContent + tagPageDiv.innerHTML;
         }
@@ -471,10 +617,31 @@ function dashboardPlugin(hook, vm) {
         }
     }
 
+    function setBoardTabIndex(dashboardTabDiv, dashboardIndex) {
+        const dashboardTabs = dashboardTabDiv.querySelectorAll('.docsify-tabs__tab');
+        dashboardTabs.forEach((tab, index) => {
+            tab.setAttribute('data-tab', `${dashboardIndex}-${index + 1}`);
+        });
+    }
+
     hook.doneEach(() => {        
         renderTagPage();
         renderSidebarTagList();
         renderPageTagList();
+
+        if (!hasDashboard) return;
+        const dashboardTabDivList = document.getElementsByClassName('docsify-dashboard');
+        if (dashboardTabDivList.length === 0) return;
+
+        if (pagination) {
+            for (let i = 0; i < dashboardTabDivList.length; i++) {
+                renderTabPagination(dashboardTabDivList[i], i);
+            }
+        } else {
+            for (let i = 0; i < dashboardTabDivList.length; i++) {
+                setBoardTabIndex(dashboardTabDivList[i], i);
+            }
+        }
     });
 };
 

@@ -20,13 +20,13 @@ To use the dashboard, you need to include the plugin in your Docsify `index.html
 **Add stylesheet**
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@2.3.1/dist/dashboard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@3.0.0/dist/dashboard.min.css">
 ```
 
 **Add script**
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@2.3.1/dist/docsify-dashboard.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@3.0.0/dist/docsify-dashboard.min.js"></script>
 
 <!-- The docsify-tabs plugin (must be included after the docsify-dashboard plugin) -->
 <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1/dist/docsify-tabs.min.js"></script>
@@ -36,7 +36,7 @@ To use the dashboard, you need to include the plugin in your Docsify `index.html
 
 The following directory structure is used:
 
-- `tags.md`: Empty file for rendering a dashboard by tags in the URL. (e.g., `#/tags?tag=travel`)
+- `tags.md`: Empty file for rendering a dashboard by tags in the URL. (e.g., `#/tags?tag=plugin`)
 
 - `posts.json`: Metadata file containing the posts information.
 
@@ -51,7 +51,7 @@ The following directory structure is used:
 
 Metadata file example(`metadata/posts.json`)
 
-> **Notes**: "*subtitle*" information is optional
+> **Notes**: "*subtitle*", "*category*" information is optional
 
 ```json
 [
@@ -68,7 +68,8 @@ Metadata file example(`metadata/posts.json`)
         "tag": "3 min read",
         "image": "assets/images/melbourne.png",
         "href": "#/topic-two",
-        "subtitle": "A beautiful city in Australia"
+        "subtitle": "A beautiful city in Australia",
+        "category": "travel"
     }
 ]
 ```
@@ -86,6 +87,13 @@ You can create a dashboard by adding the following code to your markdown file:
 
 <!-- tabs:end -->
 ```
+
+To display posts from a specific category only, you can use the following code:
+
+```markdown
+<!-- dashboard:categoryName -->
+```
+
 
 ### Tag-dashboard
 
@@ -139,7 +147,7 @@ To configure the dashboard, you can set options in your `index.html` file. The a
 | `sort` | `Boolean` | false | Sort the posts by time. (`YYYY.MM.DD`, `YYYY/MM/DD`) |
 | `theme` | `String` | 'default' | Theme for the dashboard. |
 | `tagboardTheme` | `String` | 'default' | Theme for the tag-dashboard. |
-
+| `pagination` | `Boolean` | false | Enable pagination for the dashboard tabs. |
 
 ```javascript
 window.$docsify = {
@@ -149,11 +157,8 @@ window.$docsify = {
     sort: false,                         // sort the posts by time
     theme: 'default',                    // (1) default, (2) cards, (3) list
     tagboardTheme: 'default'             // options are same as above
-  },
-
-  tabs: {
-    theme: 'material' // We recommend 'material' theme for the docsify-tabs
-  },
+    pagination: false                    // enable pagination for the dashboard
+  }
 };
 ```
 
@@ -198,6 +203,10 @@ To change the styles, you can add the following CSS to your `index.html` file:
     /* list theme */
     --dashboard-list-theme-max-width: var(--content-max-width, 100%);
     --dashboard-list-theme-img-max-width: 200px;
+
+    /* pagination style */
+    --pagination-tab-font-size: 1.1rem;
+    --pagination-tab-highlight-color: var(--theme-color, #dbe8f0);
   }
 </style>
 ```

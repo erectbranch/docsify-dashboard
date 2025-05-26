@@ -1,5 +1,23 @@
 # Change Log
 
+## 3.0.0
+
+_2025-05-26_
+
+### Added
+
+- Extended the plugin to support a `pagination` feature.
+
+- Added support for "*category*" information in the metadata. (e.g., `<!-- dashboard:categoryName -->`)
+
+- Added span elements for tabs and tag-dashboard. (`dashboard-tab`, `tag-dashboard-title`)
+
+### Changed
+
+- Fixed an issue when using multiple dashboards on the same page.
+
+- The `material` theme is automatically applied to the Docsify-Tabs theme when the dashboard is included.
+
 ## 2.3.1
 
 _2025-05-20_
