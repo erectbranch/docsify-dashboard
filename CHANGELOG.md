@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.1
+
+_2025-05-27_
+
+### Changed
+
+- Fixed the issue where the pagination events were added multiple times.
+
 ## 3.0.0
 
 _2025-05-26_
@@ -14,7 +22,7 @@ _2025-05-26_
 
 ### Changed
 
-- Fixed an issue when using multiple dashboards on the same page.
+- Fixed the issue when using multiple dashboards on the same page.
 
 - The `material` theme is automatically applied to the Docsify-Tabs theme when the dashboard is included.
 

@@ -540,7 +540,7 @@ function dashboardPlugin(hook, vm) {
             }
         }
 
-        document.addEventListener('click', (event) => {
+        dashboardTabDiv.addEventListener('click', (event) => {
             if (event.target.id === `${nextButtonId}`) {
                 nextTabSlide();
                 syncActiveTabCurrent();
