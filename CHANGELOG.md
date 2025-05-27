@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.3
+
+_2025-05-28_
+
+### Changed
+
+- Fixed the issue where the pagination calculation was incorrect.
+
 ## 3.0.2
 
 _2025-05-27_

@@ -464,7 +464,7 @@ function dashboardPlugin(hook, vm) {
         if (tabStorage[0]) {
             activeTabIndex = parseInt(tabStorage[dashboardIndex].replace(/^\d+-/, '')) || 1;
         }
-        let quotient = activeTabIndex / numVisibleTab;
+        let quotient = (activeTabIndex - 1) / numVisibleTab;
         let firstActiveTabIndex = Math.floor(quotient) * numVisibleTab + 1;
 
         const dashboardButtonDiv = dashboardTabDiv.querySelectorAll('.docsify-tabs__tab');
