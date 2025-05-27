@@ -448,7 +448,7 @@ function dashboardPlugin(hook, vm) {
 
         const prevButton = `<button class="docsify-tabs__slide-buttons prev-tabs" id="${prevButtonId}"><i class="fa-solid fa-caret-left"></i></button>\n`;
         const nextButton = `<button class="docsify-tabs__slide-buttons next-tabs" id="${nextButtonId}"><i class="fa-solid fa-caret-right"></i></button>\n`;
-        dashboardTabDiv.innerHTML = prevButton + nextButton + dashboardTabDiv.innerHTML;
+        dashboardTabDiv.innerHTML = dashboardTabDiv.innerHTML + prevButton + nextButton;
 
         const dashboardChildElements = dashboardTabDiv.querySelectorAll('*');
         dashboardChildElements.forEach((element) => {

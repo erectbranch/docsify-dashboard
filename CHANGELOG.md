@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.2
+
+_2025-05-27_
+
+### Changed
+
+- Fixed the issue where the pagination buttons were indexed incorrectly.
+
 ## 3.0.1
 
 _2025-05-27_
