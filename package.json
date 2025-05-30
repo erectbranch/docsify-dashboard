@@ -1,6 +1,6 @@
 {
   "name": "docsify-dashboard",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "description": "",
   "main": "/dist/docsify-dashboard.min.js",
   "repository": {
