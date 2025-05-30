@@ -20,13 +20,13 @@ To use the dashboard, you need to include the plugin in your Docsify `index.html
 **Add stylesheet**
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@3.0.3/dist/dashboard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-dashboard@3.1.0/dist/dashboard.min.css">
 ```
 
 **Add script**
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@3.0.3/dist/docsify-dashboard.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify-dashboard@3.1.0/dist/docsify-dashboard.min.js"></script>
 
 <!-- The docsify-tabs plugin (must be included after the docsify-dashboard plugin) -->
 <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1/dist/docsify-tabs.min.js"></script>
@@ -151,6 +151,7 @@ To configure the dashboard, you can set options in your `index.html` file. The a
 | `sort` | `Boolean` | false | Sort the posts by time. (`YYYY.MM.DD`, `YYYY/MM/DD`) |
 | `theme` | `String` | 'default' | Theme for the dashboard. |
 | `tagboardTheme` | `String` | 'default' | Theme for the tag-dashboard. |
+| `categoryTheme` | `Object` | {} | Theme for the specific categories. (`'categoryName': 'default'`) |
 | `pagination` | `Boolean` | false | Enable pagination for the dashboard tabs. |
 
 ```javascript
@@ -161,6 +162,7 @@ window.$docsify = {
     sort: false,                         // sort the posts by time
     theme: 'default',                    // (1) default, (2) cards, (3) list
     tagboardTheme: 'default',            // options are same as above
+    categoryTheme: {},                   
     pagination: false                    // enable pagination for the dashboard
   }
 };
@@ -211,6 +213,8 @@ To change the styles, you can add the following CSS to your `index.html` file:
     /* pagination style */
     --pagination-tab-font-size: 1.1rem;
     --pagination-tab-highlight-color: var(--theme-color, #dbe8f0);
+    --pagination-tab-button-color: var(--base-color, #333333);
+    --pagination-tab-content-padding: 1rem;
   }
 </style>
 ```

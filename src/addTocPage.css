@@ -61,6 +61,8 @@
     /* pagination style */
     --pagination-tab-font-size: 1.1rem;
     --pagination-tab-highlight-color: var(--theme-color, #dbe8f0);
+    --pagination-tab-button-color: var(--base-color, #333333);
+    --pagination-tab-content-padding: 1rem;
 }
 
 .toc-page-display-div {
@@ -316,14 +318,14 @@ body.force-close {
     display: none;
 }
 
-.docsify-tabs__tab.pagination.current {
+.docsify-tabs__tab.pagination.current-tabs {
     opacity: 1;
     display: block;
     padding: 0.6em 0.8em;
     font-size: var(--pagination-tab-font-size, 1.2rem);
 }
 
-.docsify-tabs__tab.pagination.current.docsify-tabs__tab--active {
+.docsify-tabs__tab.pagination.current-tabs.docsify-tabs__tab--active {
     box-shadow: none;
     color: var(--pagination-tab-highlight-color) !important;
     text-decoration: underline;
@@ -331,6 +333,7 @@ body.force-close {
 
 .docsify-tabs__content.pagination {
     border-bottom: 0 !important;
+    padding-bottom: var(--pagination-tab-content-padding, 1.5rem) !important;
 }
 
 button.docsify-tabs__slide-buttons.prev-tabs {
@@ -348,6 +351,6 @@ button.docsify-tabs__slide-buttons.next-tabs {
 button.docsify-tabs__slide-buttons {
     border: none;
     background: transparent;
-    color: #333333;
+    color: var(--pagination-tab-button-color, #333);
     padding: 0.5em 1em;
 }

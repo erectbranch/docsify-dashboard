@@ -259,6 +259,7 @@ function dashboardPlugin(hook, vm) {
     const sortPosts = dashboardConfig.sort || false;
     const dashboardTheme = dashboardConfig.theme || "default";
     const tagboardTheme = dashboardConfig.tagboardTheme || "default";
+    const categoryTheme = dashboardConfig.categoryTheme || {};
     const pagination = dashboardConfig.pagination || false;
 
     const getJson = (fileName) => {
@@ -380,7 +381,7 @@ function dashboardPlugin(hook, vm) {
         tagList = getTagList(jsonVariable);
     })
 
-    function renderDashboardContent(metadata, dashboardTheme) {
+    function renderDashboardContent(metadata, boardTheme) {
         let dashboardContent = "";
         let tabIndex = 1;
         
@@ -392,12 +393,12 @@ function dashboardPlugin(hook, vm) {
                 if (jsonIndex >= metadata.length) {
                     break;
                 }
-                dashboardContent += buildPageFromJson(metadata[jsonIndex], dashboardTheme);
+                dashboardContent += buildPageFromJson(metadata[jsonIndex], boardTheme);
             }
             dashboardContent += `</div>\n\n`;
             tabIndex++;
 
-            if (jsonIndex >= metadata.length) {
+            if ((jsonIndex + 1) >= metadata.length) {
                 break;
             }
         }
@@ -414,12 +415,17 @@ function dashboardPlugin(hook, vm) {
             // e.g., <!-- dashboard:categoryName -->
             return content.replace(dashboardReg, (string, category) => {
                 let filteredMetadata = jsonVariable;
+                let boardTheme = dashboardTheme;
 
                 if (category && category.trim()) {
                     category = category.replace(/^:/, '');
                     filteredMetadata = jsonVariable.filter(item => item.category && item.category.includes(category.trim()));
+
+                    if (categoryTheme[category]) {
+                        boardTheme = categoryTheme[category];
+                    }
                 }
-                return string.replace(string, renderDashboardContent(filteredMetadata, dashboardTheme));
+                return string.replace(string, renderDashboardContent(filteredMetadata, boardTheme));
             });
         }
     });
@@ -455,13 +461,12 @@ function dashboardPlugin(hook, vm) {
             element.classList.add('pagination');
         });
 
-        let numVisibleTab = 10;
-        if (screen.width < 768) numVisibleTab = 5;
+        const numVisibleTab = window.innerWidth < 768 ? 5 : 10;
 
         let activeTabIndex = 1;
         let tabStorage = JSON.parse(sessionStorage.getItem(`docsify-tabs.persist.${window.location.pathname}`)) || {};
 
-        if (tabStorage[0]) {
+        if (tabStorage[dashboardIndex]) {
             activeTabIndex = parseInt(tabStorage[dashboardIndex].replace(/^\d+-/, '')) || 1;
         }
         let quotient = (activeTabIndex - 1) / numVisibleTab;
@@ -472,7 +477,7 @@ function dashboardPlugin(hook, vm) {
 
         for (let i = 0; i < numVisibleTab; i++) {
             if (dashboardButtonDiv[firstActiveTabIndex + i - 1]) {
-                dashboardButtonDiv[firstActiveTabIndex + i - 1].classList.add('current');
+                dashboardButtonDiv[firstActiveTabIndex + i - 1].classList.add('current-tabs');
             }
         }
 
@@ -487,7 +492,7 @@ function dashboardPlugin(hook, vm) {
         if (firstActiveTabIndex > numVisibleTab) prevTabsButton.style.display = 'block';
 
         const nextTabSlide = () => {
-            const currentTabs = dashboardTabDiv.querySelectorAll('.docsify-tabs__tab.current');
+            const currentTabs = dashboardTabDiv.querySelectorAll('.docsify-tabs__tab.current-tabs');
             const firstTabIndex = parseInt(currentTabs[0].getAttribute('data-tab').replace(/^\d+-/, ''));
 
             prevTabsButton.style.display = 'block';
@@ -497,20 +502,20 @@ function dashboardPlugin(hook, vm) {
 
             for (let i = 0; i < currentTabs.length; i++) {
                 let tabIndex = firstTabIndex + i;
-                dashboardButtonDiv[tabIndex - 1].classList.remove('current');
+                dashboardButtonDiv[tabIndex - 1].classList.remove('current-tabs');
             }
 
             for (let i = 0; i < numVisibleTab; i++) {
                 let nextTabIndex = firstTabIndex + numVisibleTab + i;
                 if (nextTabIndex > dashboardLength) break;
-                dashboardButtonDiv[nextTabIndex - 1].classList.add('current');
+                dashboardButtonDiv[nextTabIndex - 1].classList.add('current-tabs');
             }
 
             dashboardButtonDiv[firstTabIndex + numVisibleTab - 1].click();
         }
 
         const prevTabSlide = () => {
-            const currentTabs = dashboardTabDiv.querySelectorAll('.docsify-tabs__tab.current');
+            const currentTabs = dashboardTabDiv.querySelectorAll('.docsify-tabs__tab.current-tabs');
             const firstTabIndex = parseInt(currentTabs[0].getAttribute('data-tab').replace(/^\d+-/, ''));
 
             if (firstTabIndex === 1) return;
@@ -521,11 +526,11 @@ function dashboardPlugin(hook, vm) {
 
             for (let i = 0; i < currentTabs.length; i++) {
                 let tabIndex = firstTabIndex + i;
-                dashboardButtonDiv[tabIndex - 1].classList.remove('current');
+                dashboardButtonDiv[tabIndex - 1].classList.remove('current-tabs');
             }
             
             for (let i = 0; i < numVisibleTab; i++) {
-                dashboardButtonDiv[firstTabIndex - numVisibleTab + i - 1].classList.add('current');
+                dashboardButtonDiv[firstTabIndex - numVisibleTab + i - 1].classList.add('current-tabs');
             }
 
             dashboardButtonDiv[firstTabIndex - numVisibleTab - 1].click();
@@ -535,8 +540,8 @@ function dashboardPlugin(hook, vm) {
             const activeTab = dashboardTabDiv.querySelector('.docsify-tabs__tab--active');
             if (!activeTab) return;
 
-            if (!activeTab.classList.contains('current')) {
-                activeTab.classList.add('current');
+            if (!activeTab.classList.contains('current-tabs')) {
+                activeTab.classList.add('current-tabs');
             }
         }
 

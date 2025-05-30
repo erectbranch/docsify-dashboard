@@ -1,5 +1,19 @@
 # Change Log
 
+## 3.1.0
+
+_2025-05-30_
+
+### Added
+
+- Added support for the theme customization for the specific category. (`categoryTheme` **option**)
+
+### Changed
+
+- Fixed the issue where the pagination feature was conflicting with the *docsify-image-slider* plugin.
+
+- Added `:root` variables for the pagination styles.
+
 ## 3.0.3
 
 _2025-05-28_
