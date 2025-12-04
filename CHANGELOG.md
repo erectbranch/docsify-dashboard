@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.2.0
+
+_2025-12-04_
+
+### Changed
+
+- Fixed the issue where the button was added every time the page was changed.
+
 ## 3.1.0
 
 _2025-05-30_

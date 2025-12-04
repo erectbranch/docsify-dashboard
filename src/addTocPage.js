@@ -452,6 +452,14 @@ function dashboardPlugin(hook, vm) {
         const prevButtonId = `prev-tabs-${dashboardIndex}`;
         const nextButtonId = `next-tabs-${dashboardIndex}`;
 
+        const existingPrevBtn = dashboardTabDiv.querySelector(`#${prevButtonId}`);
+        const isAlreadyInitialized = dashboardTabDiv.hasAttribute('data-pagination-initialized');
+        if (existingPrevBtn) {
+            existingPrevBtn.remove();
+            dashboardTabDiv.querySelector(`#${nextButtonId}`)?.remove();
+            dashboardTabDiv.querySelectorAll('.current-tabs').forEach(el => el.classList.remove('current-tabs'));
+        }
+
         const prevButton = `<button class="docsify-tabs__slide-buttons prev-tabs" id="${prevButtonId}"><i class="fa-solid fa-caret-left"></i></button>\n`;
         const nextButton = `<button class="docsify-tabs__slide-buttons next-tabs" id="${nextButtonId}"><i class="fa-solid fa-caret-right"></i></button>\n`;
         dashboardTabDiv.innerHTML = dashboardTabDiv.innerHTML + prevButton + nextButton;
@@ -482,7 +490,10 @@ function dashboardPlugin(hook, vm) {
         }
 
         for (let i = 0; i < dashboardLength; i++) {
-            dashboardButtonDiv[i].setAttribute('data-tab', `${dashboardIndex}-${dashboardButtonDiv[i].getAttribute('data-tab')}`);
+            const currentDataTab = dashboardButtonDiv[i].getAttribute('data-tab');
+            if (!currentDataTab.startsWith(`${dashboardIndex}-`)) {
+                dashboardButtonDiv[i].setAttribute('data-tab', `${dashboardIndex}-${currentDataTab}`);
+            }
         }
 
         const nextTabsButton = dashboardTabDiv.querySelector(`#${nextButtonId}`);
@@ -545,15 +556,18 @@ function dashboardPlugin(hook, vm) {
             }
         }
 
-        dashboardTabDiv.addEventListener('click', (event) => {
-            if (event.target.id === `${nextButtonId}`) {
-                nextTabSlide();
-                syncActiveTabCurrent();
-            } else if (event.target.id === `${prevButtonId}`) {
-                prevTabSlide();
-                syncActiveTabCurrent();
-            }
-        });
+        if (!isAlreadyInitialized) {
+            dashboardTabDiv.setAttribute('data-pagination-initialized', 'true');
+            dashboardTabDiv.addEventListener('click', (event) => {
+                if (event.target.id === `${nextButtonId}`) {
+                    nextTabSlide();
+                    syncActiveTabCurrent();
+                } else if (event.target.id === `${prevButtonId}`) {
+                    prevTabSlide();
+                    syncActiveTabCurrent();
+                }
+            });
+        }
     }
 
     function renderTagPage() {
